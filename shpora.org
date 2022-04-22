@@ -1,10 +1,10 @@
 
-#+begin_export nasm
+(#+begin_export nasm
 mov     bx,   0xA67B  ;bx,  <- 0xA67B
 movzx	ebx,  bx      ;ebx, <- 0x0000A67B
 movsx	eax,  bx      ;eax, <- 0xFFFFA67B
 movsx	ecx,  bl      ;ecx, <- 0x0000007B
-#+end_export
+(#+end_export
 
 ** registers
  [[./pictures/regs.png]]
