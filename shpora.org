@@ -12,7 +12,11 @@ movsx	ecx,  bl      ;ecx, <- 0x0000007B
 ** flags table for EFLAGS
  [[./pictures/flags.png]]
 
- 
+** multdiv
+[[./pictures/multdiv.png]]
+
+** jump
+[[./pictures/jump.png]]
 
 
 
