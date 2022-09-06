@@ -24,3 +24,8 @@ movsx	ecx,  bl      ;ecx, <- 0x0000007B
 
 
 
+je jumps to a label if the previous comparison was equal.
+We also have jne (jump if not equal), jl (jump if less),
+jnl (jump if not less), jg (jump if greater), jng (jump if not greater),
+jle (jump if less or equal), jnle (jump if not less or equal),
+jge (jump if greater or equal), jnge (jump if not greater or equal), and many more. 
