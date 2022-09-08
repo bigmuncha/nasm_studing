@@ -1,5 +1,5 @@
 * nasm_studing
-Some examples for nasm studing and low level programming  \\
+** Some examples for nasm studing and low level programming  
 ./library include several books on russian and english language about nasm and ll programming \\
 assembly.sh - shell script for building exambples. its 32 bit nasm, for 64 nasm change number on 64 
 #+begin_example
