@@ -38,42 +38,52 @@ print_string:
 
 ;; this function get parametr of char in rsi register
 print_char:
+	push rsi
+	mov rsi,rsp
 	mov rax, 1              ; system call 1(write)
 	mov rdi, 1              ; fd(stdout)
 	mov rdx, 1            ; size
 	syscall
+	pop rsi
 	ret
 
 print_newline:
 	mov rsi, 0xA
 	call print_char
+	ret
+
 
 ;;; thist function get parametr in rcx register
 print_uint:
 	mov r9, rsp
 	mov ax, cx
-	mov cx, 10
+	mov ecx, 10
+	mov edx,0
 .loop_mod:
+	xor rdx,rdx
 	div cx
-	mov [rsp - 1], ah
-	mov [rsp - 2], al
-	mov rax, [rsp - 2]
+	mov [rsp - 1], dl
 	dec rsp
 	cmp al, 0
 	jne .loop_mod
+	mov  r8, rsi
 .loop_print_char:
-	mov rsi, [rsp]
-	add rsi, 48
+	xor rax,rax
+	mov al, [rsp]
+	add al, 48
+	mov rsi, rax
 	call print_char
-	cmp r9, rsp
 	inc rsp
+	cmp r9, rsp
 	jne .loop_print_char
+	mov rsi, r8
 	ret
 
 _start:
 	mov rdi, string
 	call print_string
-	mov rcx, 214
+	call print_newline
+	mov rcx, 216
 	call print_uint
 	mov rdi, rax
 	call exit
