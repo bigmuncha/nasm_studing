@@ -1,11 +1,16 @@
 * nasm_studing
 ** Some examples for nasm studing and low level programming  
-./library include several books on russian and english language about nasm and ll programming \\
-assembly.sh - shell script for building exambples. its 32 bit nasm, for 64 nasm change number on 64 
+./library include several books on russian and english language about nasm and ll programming 
+
+./shpora.org include some tips and hints  
+
+assembly.sh - shell script for building exambples. its 32 bit nasm, for 64 nasm change number on 64  
 #+begin_example
 nasm  -felf64 lib.asm -o lib.o
 ld lib.o -o lib
 gdb ./lib
 #+end_example
-install peda for better experience with debugging: https://github.com/longld/peda  \\
+
+install peda for better experience with debugging: https://github.com/longld/peda  
+
 low level programming book fork repo: https://github.com/bigmuncha/low-level-programming  
