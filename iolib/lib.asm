@@ -89,7 +89,16 @@ print_int:
 	pop rcx
 .uint:
 	call print_uint
-ret
+	ret
+
+;;this function get string pointer in rsi
+read_char:
+	mov rax, 0
+	mov rdi, 0	; from stdin
+	;; rsi is already set
+	mov rdx, 1
+	syscall
+	ret
 _start:
 	mov rdi, string
 	call print_string
@@ -103,7 +112,14 @@ _start:
 	mov rcx, -15
 	call print_int
 	call print_newline
-
+	dec rsp
+	mov rsi, rsp
+	call read_char
+	xor rax, rax
+	mov al, byte[rsp]
+	mov rsi, rax
+	call print_char
+	inc rsp
 	mov rdi, rax
 	call exit
 
