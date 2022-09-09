@@ -91,7 +91,7 @@ print_int:
 	call print_uint
 	ret
 
-;;this function get string pointer in rsi
+;;this function get char pointer in rsi
 read_char:
 	mov rax, 0
 	mov rdi, 0	; from stdin
@@ -99,6 +99,26 @@ read_char:
 	mov rdx, 1
 	syscall
 	ret
+
+;;this function get string pointer in rsi and max size in rdi return
+read_word:
+.charloop
+	push
+	cmp rdi, 0
+	je .badendloop
+	dec rdi
+	mov rsi, rsp
+	call read_char
+	cmp [rsi], ' '
+	je .goodendloop
+	cmp [rsi], 0
+	je .goodendloop
+	jmp .charloop
+.badendloop:
+	mov rax, 0
+	ret
+.goodendloop:
+	mov rax rsi
 _start:
 	mov rdi, string
 	call print_string
