@@ -78,13 +78,32 @@ print_uint:
 	jne .loop_print_char
 	mov rsi, r8
 	ret
-
+;;; thist function get parametr in rcx register
+print_int:
+	cmp rcx, 0
+	jnl .uint
+	neg rcx
+	push rcx
+	mov rsi, '-'
+	call print_char
+	pop rcx
+.uint:
+	call print_uint
+ret
 _start:
 	mov rdi, string
 	call print_string
 	call print_newline
 	mov rcx, 216
 	call print_uint
+	call print_newline
+	mov rcx, 15
+	call print_int
+	call print_newline
+	mov rcx, -15
+	call print_int
+	call print_newline
+
 	mov rdi, rax
 	call exit
 
