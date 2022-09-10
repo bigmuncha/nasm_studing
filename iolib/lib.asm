@@ -39,7 +39,7 @@ print_string:
 ;; this function get parametr of char in rsi register
 print_char:
 	push rsi
-	mov rsi,rsp
+	mov rsi, rsp
 	mov rax, 1              ; system call 1(write)
 	mov rdi, 1              ; fd(stdout)
 	mov rdx, 1            ; size
@@ -132,18 +132,18 @@ readword:
 	mov rax, 0
 	ret
 _start:
-	; mov rdi, string
-	; call print_string
-	; call print_newline
-	; mov rcx, 216
-	; call print_uint
-	; call print_newline
-	; mov rcx, 15
-	; call print_int
-	; call print_newline
-	; mov rcx, -15
-	; call print_int
-	; call print_newline
+	mov rdi, string
+	call print_string
+	call print_newline
+	mov rcx, 216
+	call print_uint
+	call print_newline
+	mov rcx, 15
+	call print_int
+	call print_newline
+	mov rcx, -15
+	call print_int
+	call print_newline
 	; dec rsp
 	; mov rsi, rsp
 	; call read_char
@@ -151,9 +151,11 @@ _start:
 	; mov al, byte[rsp]
 	; mov rsi, rax
 	; call print_char
+	; inc rsp
 .label:
+	sub rsp, 100
 	mov rsi, rsp
-	mov rdi, 10
+	mov rdi, 100
 	call readword
 	mov rdi, rax
 	call print_string
