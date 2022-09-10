@@ -100,46 +100,64 @@ read_char:
 	syscall
 	ret
 
-;;this function get string pointer in rsi and max size in rdi return
-read_word:
-.charloop
-	push
-	cmp rdi, 0
-	je .badendloop
-	dec rdi
+;;this function get string pointer in rsp and max size in rdi return in rax
+readword:
+	mov r10, rdi
+	mov r12, rdi
+	mov rax, 0
+	sub rsp, rdi
 	mov rsi, rsp
-	call read_char
-	cmp [rsi], ' '
-	je .goodendloop
-	cmp [rsi], 0
-	je .goodendloop
-	jmp .charloop
-.badendloop:
+	mov rdx, rdi
+	mov rdi, 0
+	syscall
+	mov r11, rsi
+.wordloop:
+	cmp byte[rsi], ' '
+	je .goodret
+	cmp byte[rsi], 0xA
+	je .goodret
+	cmp byte[rsi], 0
+	je .goodret
+	inc rsi
+	dec r10
+	cmp r10, 0
+	je .badret
+	jmp .wordloop
+.goodret:
+	mov byte[rsi], 0
+	mov rax, r11
+	add rsp, r12
+	ret
+.badret:
 	mov rax, 0
 	ret
-.goodendloop:
-	mov rax rsi
 _start:
-	mov rdi, string
+	; mov rdi, string
+	; call print_string
+	; call print_newline
+	; mov rcx, 216
+	; call print_uint
+	; call print_newline
+	; mov rcx, 15
+	; call print_int
+	; call print_newline
+	; mov rcx, -15
+	; call print_int
+	; call print_newline
+	; dec rsp
+	; mov rsi, rsp
+	; call read_char
+	; xor rax, rax
+	; mov al, byte[rsp]
+	; mov rsi, rax
+	; call print_char
+.label:
+	mov rsi, rsp
+	mov rdi, 10
+	call readword
+	mov rdi, rax
 	call print_string
 	call print_newline
-	mov rcx, 216
-	call print_uint
-	call print_newline
-	mov rcx, 15
-	call print_int
-	call print_newline
-	mov rcx, -15
-	call print_int
-	call print_newline
-	dec rsp
-	mov rsi, rsp
-	call read_char
-	xor rax, rax
-	mov al, byte[rsp]
-	mov rsi, rax
-	call print_char
-	inc rsp
 	mov rdi, rax
 	call exit
 
