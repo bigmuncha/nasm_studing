@@ -159,6 +159,18 @@ parse_uint:
 .escape:
 	mov rax, r8
 	ret
+;;get string pointer in rdi, return number in rax, in rdi set number len
+parse_int:
+	cmp byte[rdi], '-'
+	je .int
+.uint:
+	call parse_uint
+	ret
+.int:
+	inc rdi
+	call parse_uint
+	neg rax
+	ret
 _start:
 	; mov rdi, string
 	; call print_string
@@ -181,14 +193,23 @@ _start:
 	; ; call print_char
 	; ; inc rsp
 .label:
+	sub  rsp, 100
+	mov  rsi, rsp
+	mov  rdi, 100
+	call read_word
+	mov  rdi, rax
+	call parse_uint
+	mov rcx, rax
+	call print_uint
+	call print_newline
 	sub rsp, 100
 	mov rsi, rsp
 	mov rdi, 100
 	call read_word
 	mov rdi, rax
-	call parse_uint
+	call parse_int
 	mov rcx, rax
-	call print_uint
+	call print_int
 	call print_newline
 	mov rdi, rax
 	call exit
