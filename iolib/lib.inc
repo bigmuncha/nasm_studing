@@ -1,6 +1,6 @@
 global _start
 
-string: db "asdkbasdka", 0
+string: db "Omar", 0
 ;; this function get parametr of exit code in rdi register
 exit:
 	mov rax, 60
@@ -36,13 +36,13 @@ print_string:
 
 ;; this function get parametr of char in rsi register
 print_char:
-	push rsi
+	push rdi
 	mov rsi, rsp
 	mov rax, 1              ; system call 1(write)
 	mov rdi, 1              ; fd(stdout)
 	mov rdx, 1            ; size
 	syscall
-	pop rsi
+	pop rdi
 	ret
 
 print_newline:
@@ -51,13 +51,13 @@ print_newline:
 	ret
 
 
-;;; thist function get parametr in rcx register
+;;; thist function get parametr in rdi register
 print_uint:
-	xor rcx, rcx
 	mov rcx, rdi
 	mov r9, rsp
-	mov al, cl
-	mov cl, 10
+	mov ax, cx
+	mov ecx, 10
+	mov edx,0
 .loop_mod:
 	xor rdx,rdx
 	div cx
@@ -209,71 +209,3 @@ string_copy:
 .fit_string:
 	mov rax, r8
 	ret
-
-_start:
-	; sub rsp, 30
-	; mov rdi, string
-	; mov rsi, rsp
-	; mov rdx, 20
-	; call string_copy
-	; mov rax, 0
-	mov rdi, -1
-	call print_uint
-; 	; call print_newline
-; 	; mov rcx, 15
-; 	; call print_int
-; 	; call print_newline
-; 	; mov rcx, -15
-; 	; call print_int
-; 	; call print_newline
-; 	; ; dec rsp
-; 	; ; mov rsi, rsp
-; 	; ; call read_char
-; 	; ; xor rax, rax
-; 	; ; mov al, byte[rsp]
-; 	; ; mov rsi, rax
-; 	; ; call print_char
-; 	; ; inc rsp
-; .label:
-; 	; sub  rsp, 100
-; 	; mov  rsi, rsp
-; 	; mov  rdi, 100
-; 	; call read_word
-; 	; mov  rdi, rax
-; 	; call parse_uint
-; 	; mov rcx, rax
-; 	; call print_uint
-; 	; call print_newline
-; 	; sub rsp, 100
-; 	; mov rsi, rsp
-; 	; mov rdi, 100
-; 	; call read_word
-; 	; mov rdi, rax
-; 	; call parse_int
-; 	; mov rcx, rax
-; 	; call print_int
-; 	; call print_newline
-
-; 	sub  rsp, 100
-; 	mov  rsi, rsp
-; 	mov  rdi, 50
-; 	call read_word
-; 	mov r14, rax
-
-; 	sub  rsp, 100
-; 	mov  rsi, rsp
-; 	mov  rdi, 50
-; 	call read_word
-; 	mov r13, rax
-
-	
-	
-; 	mov rdi, r13
-; 	mov rsi, r14
-; 	call string_equals
-; 	mov rcx, rax
-; 	call print_uint
-; 	call print_newline
- 	mov rdi, rax
- 	call exit
-
