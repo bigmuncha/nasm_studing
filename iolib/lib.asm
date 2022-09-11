@@ -171,6 +171,22 @@ parse_int:
 	call parse_uint
 	neg rax
 	ret
+;; get 1st string pointer in rsi and second in rdi return 1 or 0 in rax
+string_equals:
+	mov al, byte[rsi]
+	cmp al, byte[rdi]
+	jne .badret
+	cmp byte[rsi], 0
+	je .goodret
+	inc rsi
+	inc rdi
+	jmp string_equals
+.badret:
+	mov rax, 0
+	ret
+.goodret:
+	mov rax, 1
+	ret
 _start:
 	; mov rdi, string
 	; call print_string
@@ -193,23 +209,42 @@ _start:
 	; ; call print_char
 	; ; inc rsp
 .label:
+	; sub  rsp, 100
+	; mov  rsi, rsp
+	; mov  rdi, 100
+	; call read_word
+	; mov  rdi, rax
+	; call parse_uint
+	; mov rcx, rax
+	; call print_uint
+	; call print_newline
+	; sub rsp, 100
+	; mov rsi, rsp
+	; mov rdi, 100
+	; call read_word
+	; mov rdi, rax
+	; call parse_int
+	; mov rcx, rax
+	; call print_int
+	; call print_newline
+
 	sub  rsp, 100
 	mov  rsi, rsp
-	mov  rdi, 100
+	mov  rdi, 50
 	call read_word
-	mov  rdi, rax
-	call parse_uint
+	mov r14, rax
+
+	sub  rsp, 100
+	mov  rsi, rsp
+	mov  rdi, 50
+	call read_word
+	mov r13, rax
+
+	mov rdi, r13
+	mov rsi, r14
+	call string_equals
 	mov rcx, rax
 	call print_uint
-	call print_newline
-	sub rsp, 100
-	mov rsi, rsp
-	mov rdi, 100
-	call read_word
-	mov rdi, rax
-	call parse_int
-	mov rcx, rax
-	call print_int
 	call print_newline
 	mov rdi, rax
 	call exit
