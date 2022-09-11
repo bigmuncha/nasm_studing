@@ -101,7 +101,7 @@ read_char:
 	ret
 
 ;;this function get string pointer in rsp and max size in rdi return in rax
-readword:
+read_word:
 	mov r10, rdi
 	mov r12, rdi
 	mov rax, 0
@@ -131,34 +131,64 @@ readword:
 .badret:
 	mov rax, 0
 	ret
+
+;;get string pointer in rdi, return number in rax, in rdi set number len
+parse_uint:
+	mov r11, rdi
+	mov r12, 1
+	xor r8,r8
+	mov r9, 10
+.find_tail:
+	cmp byte[r11], 0
+	je .start_parse
+	inc r11
+	jmp .find_tail
+.start_parse:
+	xor rax,rax
+	dec r11
+	cmp r11, rdi
+	jl .escape
+	mov al, byte[r11]
+	sub al, 48
+	mul r12
+	add r8w, ax
+	mov al, r12b
+	mul r9
+	mov r12w, ax
+	jmp .start_parse
+.escape:
+	mov rax, r8
+	ret
 _start:
-	mov rdi, string
-	call print_string
-	call print_newline
-	mov rcx, 216
-	call print_uint
-	call print_newline
-	mov rcx, 15
-	call print_int
-	call print_newline
-	mov rcx, -15
-	call print_int
-	call print_newline
-	; dec rsp
-	; mov rsi, rsp
-	; call read_char
-	; xor rax, rax
-	; mov al, byte[rsp]
-	; mov rsi, rax
-	; call print_char
-	; inc rsp
+	; mov rdi, string
+	; call print_string
+	; call print_newline
+	; mov rcx, 216
+	; call print_uint
+	; call print_newline
+	; mov rcx, 15
+	; call print_int
+	; call print_newline
+	; mov rcx, -15
+	; call print_int
+	; call print_newline
+	; ; dec rsp
+	; ; mov rsi, rsp
+	; ; call read_char
+	; ; xor rax, rax
+	; ; mov al, byte[rsp]
+	; ; mov rsi, rax
+	; ; call print_char
+	; ; inc rsp
 .label:
 	sub rsp, 100
 	mov rsi, rsp
 	mov rdi, 100
-	call readword
+	call read_word
 	mov rdi, rax
-	call print_string
+	call parse_uint
+	mov rcx, rax
+	call print_uint
 	call print_newline
 	mov rdi, rax
 	call exit
